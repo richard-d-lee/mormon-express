@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="200" height="200">
+  <circle cx="50" cy="50" r="48" fill="#1e4d6b" stroke="#c4a44a" stroke-width="4"/>
+  <text x="50" y="45" font-family="Georgia, serif" font-size="28" fill="white" text-anchor="middle" font-weight="bold">ME</text>
+  <text x="50" y="68" font-family="Georgia, serif" font-size="12" fill="#c4a44a" text-anchor="middle">Scripture</text>
+</svg>

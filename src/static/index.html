@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Mormon Express - Chat with prophets and leaders from the Bible and Book of Mormon. An educational tool for exploring scripture through conversation.">
+    <meta name="keywords" content="Mormon, LDS, Book of Mormon, Bible, scripture study, prophets, chat, AI, educational">
+    <title>Mormon Express - Scripture Conversations</title>
+
+    <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Auth Modal -->
+        <div id="auth-modal" class="modal">
+            <div class="modal-content auth-modal-content">
+                <div class="auth-header">
+                    <img src="/images/logo.svg" alt="Mormon Express" class="auth-logo" onerror="this.style.display='none'">
+                    <h2>Mormon Express</h2>
+                    <p>Conversations with Scripture</p>
+                </div>
+
+                <div class="auth-tabs">
+                    <button class="auth-tab active" data-tab="login">Sign In</button>
+                    <button class="auth-tab" data-tab="register">Create Account</button>
+                </div>
+
+                <form id="login-form" class="auth-form">
+                    <div class="form-group">
+                        <label for="login-username">Username or Email</label>
+                        <input type="text" id="login-username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password">Password</label>
+                        <input type="password" id="login-password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-full">Sign In</button>
+                    <p class="auth-error" id="login-error"></p>
+                </form>
+
+                <form id="register-form" class="auth-form hidden">
+                    <div class="form-group">
+                        <label for="register-username">Username</label>
+                        <input type="text" id="register-username" minlength="3" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="register-email">Email</label>
+                        <input type="email" id="register-email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="register-password">Password</label>
+                        <input type="password" id="register-password" minlength="6" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-full">Create Account</button>
+                    <p class="auth-error" id="register-error"></p>
+                </form>
+
+                <button class="btn btn-secondary btn-full guest-btn" id="continue-guest">
+                    Continue as Guest
+                </button>
+            </div>
+        </div>
+
+        <!-- Daily Recommendation Modal -->
+        <div id="recommendation-modal" class="modal">
+            <div class="modal-content recommendation-content">
+                <div class="recommendation-header">
+                    <span class="greeting-icon">&#9728;</span>
+                    <h2>Good morning!</h2>
+                </div>
+                <p class="recommendation-text" id="recommendation-text">
+                    Based on your previous conversations, you might enjoy talking to <strong id="rec-character-name">Nephi</strong> today.
+                </p>
+                <p class="recommendation-reason" id="recommendation-reason"></p>
+                <div class="recommendation-actions">
+                    <button class="btn btn-primary" id="accept-recommendation">Talk to <span id="rec-btn-name">Nephi</span></button>
+                    <button class="btn btn-secondary" id="decline-recommendation">Choose Someone Else</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings Modal -->
+        <div id="settings-modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Settings</h2>
+                    <button class="modal-close" id="close-settings">&times;</button>
+                </div>
+
+                <div class="settings-section">
+                    <h3>Scripture Mode</h3>
+                    <p class="settings-desc">Include scripture references in responses</p>
+                    <label class="toggle">
+                        <input type="checkbox" id="scripture-mode-toggle">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+
+                <div class="settings-section" id="scripture-source-section">
+                    <h3>Scripture Source</h3>
+                    <select id="scripture-source">
+                        <option value="all">All Standard Works</option>
+                        <option value="book_of_mormon">Book of Mormon Only</option>
+                        <option value="bible">Bible Only</option>
+                    </select>
+                </div>
+
+                <div class="settings-section">
+                    <h3>Account</h3>
+                    <div id="account-info"></div>
+                    <button class="btn btn-secondary" id="logout-btn" style="display:none;">Sign Out</button>
+                    <button class="btn btn-primary" id="show-auth-btn" style="display:none;">Sign In</button>
+                </div>
+
+                <div class="settings-section">
+                    <h3>Your Journey</h3>
+                    <div id="user-stats">
+                        <p>Sign in to track your conversations and get personalized recommendations.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Character Selection Modal -->
+        <div id="character-modal" class="modal">
+            <div class="modal-content character-modal-content">
+                <div class="modal-header">
+                    <h2>Choose a Character</h2>
+                    <button class="modal-close" id="close-characters">&times;</button>
+                </div>
+
+                <div class="section-tabs">
+                    <button class="section-tab active" data-section="book_of_mormon">Book of Mormon</button>
+                    <button class="section-tab" data-section="old_testament">Old Testament</button>
+                    <button class="section-tab" data-section="new_testament">New Testament</button>
+                </div>
+
+                <div class="characters-grid" id="characters-grid">
+                    <!-- Characters will be loaded dynamically -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Conversation History Modal -->
+        <div id="history-modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Your Conversations</h2>
+                    <button class="modal-close" id="close-history">&times;</button>
+                </div>
+                <div class="conversations-list" id="conversations-list">
+                    <p class="no-conversations">Sign in to save and access your conversation history.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Chat Interface -->
+        <header class="chat-header">
+            <div class="header-left">
+                <div class="character-avatar" id="current-avatar">
+                    <img src="/images/nephi.svg" alt="Nephi" id="avatar-img" onerror="this.src='/images/default-avatar.svg'">
+                </div>
+                <div class="header-info">
+                    <h1 id="character-name">Nephi</h1>
+                    <p id="character-title">Son of Lehi, Prophet & Record Keeper</p>
+                </div>
+            </div>
+            <div class="header-right">
+                <button class="btn btn-donate" id="donate-btn" title="Support Development">
+                    <span class="donate-icon">&#10084;</span> Donate
+                </button>
+                <button class="icon-btn" id="history-btn" title="Conversation History">
+                    <svg viewBox="0 0 24 24" width="24" height="24"><path fill="currentColor" d="M13 3a9 9 0 0 0-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42A8.954 8.954 0 0 0 13 21a9 9 0 0 0 0-18zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"/></svg>
+                </button>
+                <button class="icon-btn" id="characters-btn" title="Change Character">
+                    <svg viewBox="0 0 24 24" width="24" height="24"><path fill="currentColor" d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                </button>
+                <button class="icon-btn" id="settings-btn" title="Settings">
+                    <svg viewBox="0 0 24 24" width="24" height="24"><path fill="currentColor" d="M19.14 12.94c.04-.31.06-.63.06-.94 0-.31-.02-.63-.06-.94l2.03-1.58a.49.49 0 0 0 .12-.61l-1.92-3.32a.488.488 0 0 0-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.484.484 0 0 0-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.04.31-.06.63-.06.94s.02.63.06.94l-2.03 1.58a.49.49 0 0 0-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
+                </button>
+            </div>
+        </header>
+
+        <main class="chat-container">
+            <div class="chat-messages" id="chat-messages">
+                <!-- Messages will be added here -->
+            </div>
+
+            <div class="typing-indicator hidden" id="typing-indicator">
+                <span></span><span></span><span></span>
+            </div>
+        </main>
+
+        <footer class="chat-input-container">
+            <div class="input-wrapper">
+                <textarea
+                    id="message-input"
+                    placeholder="Share your thoughts or questions..."
+                    rows="1"
+                    maxlength="2000"
+                ></textarea>
+                <button class="send-btn" id="send-btn" title="Send message">
+                    <svg viewBox="0 0 24 24" width="24" height="24"><path fill="currentColor" d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+                </button>
+            </div>
+            <p class="disclaimer">
+                This is an AI-powered educational tool. Characters respond based on scriptural accounts and LDS teachings.
+            </p>
+        </footer>
+    </div>
+
+    <script src="/script.js"></script>
+</body>
+</html>

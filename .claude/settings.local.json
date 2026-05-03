@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(tree:*)",
+      "Bash(python generate_avatars.py:*)",
+      "Bash(dir:*)",
+      "Bash(python -m pip install:*)",
+      "Bash(python -c:*)"
+    ]
+  }
+}
