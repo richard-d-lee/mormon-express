@@ -1,5 +1,5 @@
 """
-Character definitions for Mormon Express
+Character definitions for LDS Bots
 Each character has a unique personality, speaking style, and theological perspective
 based on LDS-approved sources including scriptures, General Conference talks, and church materials.
 """

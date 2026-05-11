@@ -1,4 +1,4 @@
-// Mormon Express - Scripture Conversations
+// LDS Bots - Scripture Conversations
 // Main JavaScript Application
 
 (function() {

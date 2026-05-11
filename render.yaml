@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: mormon-express
+    name: lds-bots
     env: python
     buildCommand: pip install -r requirements.txt
     startCommand: python src/main.py
@@ -13,11 +13,11 @@ services:
         value: production
       - key: DATABASE_URL
         fromDatabase:
-          name: mormon-express-db
+          name: lds-bots-db
           property: connectionString
 
 databases:
-  - name: mormon-express-db
-    databaseName: mormon_express
-    user: mormon_express_user
+  - name: lds-bots-db
+    databaseName: lds_bots
+    user: lds_bots_user
     plan: free

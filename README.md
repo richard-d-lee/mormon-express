@@ -1,4 +1,4 @@
-# Mormon Express - Scripture Conversations
+# LDS Bots - Scripture Conversations
 
 An educational AI-powered chatbot that allows users to have conversations with characters from the Bible and Book of Mormon. Each character has a unique personality, speaking style, and theological perspective based on LDS-approved sources.
 
@@ -33,8 +33,8 @@ An educational AI-powered chatbot that allows users to have conversations with c
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/YOUR_USERNAME/mormon-express.git
-cd mormon-express
+git clone https://github.com/YOUR_USERNAME/lds-bots.git
+cd lds-bots
 ```
 
 2. Create and activate a virtual environment:
@@ -76,12 +76,12 @@ python src/main.py
 
 2. Initialize git and push:
 ```bash
-cd mormon-express
+cd lds-bots
 git init
 git add .
 git commit -m "Initial commit"
 git branch -M main
-git remote add origin https://github.com/YOUR_USERNAME/mormon-express.git
+git remote add origin https://github.com/YOUR_USERNAME/lds-bots.git
 git push -u origin main
 ```
 
@@ -100,7 +100,7 @@ git push -u origin main
 
 6. Click "Apply" to deploy
 
-Your app will be available at `https://mormon-express.onrender.com` (or your custom domain)
+Your app will be available at `https://lds-bots.onrender.com` (or your custom domain)
 
 ### Alternative: Manual Render Setup
 

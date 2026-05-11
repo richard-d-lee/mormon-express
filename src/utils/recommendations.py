@@ -1,5 +1,5 @@
 """
-Recommendation Engine for Mormon Express
+Recommendation Engine for LDS Bots
 Analyzes conversation history to suggest relevant characters for daily chats
 """
 

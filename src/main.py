@@ -80,7 +80,7 @@ def create_app():
     # Health check endpoint
     @app.route('/health')
     def health():
-        return {'status': 'healthy', 'app': 'Mormon Express'}, 200
+        return {'status': 'healthy', 'app': 'LDS Bots'}, 200
 
     return app
 
@@ -91,6 +91,6 @@ app = create_app()
 if __name__ == '__main__':
     port = int(os.getenv('PORT', 5000))
     debug = os.getenv('FLASK_ENV') != 'production'
-    print(f"[LOG] Starting Mormon Express on port {port}")
+    print(f"[LOG] Starting LDS Bots on port {port}")
     print(f"[LOG] Debug mode: {debug}")
     app.run(host='0.0.0.0', port=port, debug=debug)
